@@ -20,6 +20,15 @@ class Filter extends Component {
           <option value="">November</option>
           <option value="">December</option>
         </select>
+        <select className="day-drop-down">
+          <option value="">Sunday</option>
+          <option value="">Monday</option>
+          <option value="">Tuesday</option>
+          <option value="">Wednesday</option>
+          <option value="">Thursday</option>
+          <option value="">Friday</option>
+          <option value="">Saturday</option>
+        </select>
       </div>
     );
   }
