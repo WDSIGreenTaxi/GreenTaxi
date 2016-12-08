@@ -1,16 +1,21 @@
 .filter {
-  height: 20vh;
+  height: 32vh;
   width: 29.8vw;
-  border: 1px solid black;
+  border-top: 2px solid rgb(30, 108, 117);
+  border-bottom: 1px solid rgb(30, 108, 117);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  background-color: #FAFAFA;
 }
 
 .filter select {
-  height: 3vh;
-  width: 20%;
+  height: 3.5vh;
+  width: 25%;
+  margin: 1%;
+  border: 1px solid rgb(30, 108, 117);
+  border-radius: 1em;
 }
 
 .filter button {
@@ -19,9 +24,14 @@
   border-radius: .2em;
   border-style: none;
   color: white;
+  background-color: rgb(30, 108, 117);
 }
 
 .filter h2 {
+  margin: 0;
+}
+
+.filter p {
   margin: 0;
 }
 
