@@ -164,7 +164,7 @@ class App extends Component {
   doFilter(e) {
     this.setState({
       dataToShow: this.filterHistoricalData(this.state.historyData),
-      chartTitle: `Price vs. Time for an Average ${this.state.day} in ${this.state.month}`,
+      chartTitle: `Price vs. Time for an Average ${this.getDayString(this.state.day)} in ${this.getMonthString(this.state.month)}`,
     });
   }
 
