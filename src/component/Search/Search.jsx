@@ -5,7 +5,7 @@ class Search extends Component {
   render() {
     return (
       <div className={styles["Search"]}>
-        <h2>Search Your Route</h2>
+        <h2>Predict the Fare</h2>
         <p>Starting Address</p>
         <input onChange={this.props.updateAddress}/>
         <p>Ending Address</p>

@@ -7,7 +7,7 @@ const Graph = props => {
     <div className={styles['barchart']}>
       <BarChart
         data={props.data}
-        height={500}
+        height={450}
         width={750}
         fill={'#234981'}
         title={props.chartTitle}
