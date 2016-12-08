@@ -1,26 +1,33 @@
+body {
+  margin: 0;
+}
+
 .App {
   height: 100vh;
   width: 100vw;
   margin: 0;
-  background-color: #FAFAFA;
+  background-color: #eff9f4;
   font-family: arial;
 }
 
 .side-bar {
-  height: 80vh;
+  height: 80.5vh;
   width: 30vw;
   position: absolute;
   top: 17vh;
   left: 1vw;
-  background-color: #FAFAFA;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .graph-container {
   height: 80vh;
-  width: 67.5vw;
+  width: 67vw;
   position: absolute;
   top: 17vh;
   left: 32vw;
   background-color: #FAFAFA;
-  border: 1px solid black;
+  border-top: 2px solid rgb(30, 108, 117);
+  border-bottom: 2px solid rgb(30, 108, 117);
 }

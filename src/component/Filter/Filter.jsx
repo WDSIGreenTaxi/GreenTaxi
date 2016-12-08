@@ -4,7 +4,8 @@ import styles from './Filter.css';
 const Filter = props => {
   return (
     <div className={styles["filter"]}>
-      <h2>Select Month</h2>
+      <h2>Historical Data</h2>
+      <p>See prices by entering month and day</p>
       <div className={styles['drop-down']}>
         <select className="month-drop-down" onChange={props.updateMonth}>
           <option value="1">January</option>
