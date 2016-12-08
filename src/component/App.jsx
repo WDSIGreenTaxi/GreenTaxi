@@ -12,14 +12,10 @@ class App extends Component {
       historyData: [],
       predictResponse: [],
       origAddress: '',
-      origLat: '',
-      origLong: '',
       destAddress: '',
-      destLat: '',
-      destLong: '',
       distance: '',
-      month: '',
-      day: '',
+      month: 0,
+      day: 1,
       dataToShow: [],
       chartTitle: '',
       xAxisLabel: 'Hour',
@@ -29,18 +25,30 @@ class App extends Component {
     }
   }
 
-  componentWillMount(){
-    // this.getHistory();
+  componentDidMount(){
+    this.getHistory();
+  }
+
+  getDayString(day) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[day];
+  }
+
+  getMonthString(month) {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return months[month - 1];
   }
 
   getHistory () {
     fetch(`http://localhost:4000/history`)
     .then(r => r.json())
     .then((response) => {
+      const filtered = this.filterHistoricalData(response);
       this.setState({
-        historyData: response
-      })
-      this.filterHistoricalData(response).bind(this)
+        historyData: response,
+        dataToShow: filtered,
+        chartTitle: `Price vs. Time for an Average ${this.getDayString(this.state.day)} in ${this.getMonthString(this.state.month)}`,
+      });
     })
     .catch(err => console.log(err));
   }
@@ -59,10 +67,6 @@ class App extends Component {
     .then(r => r.json())
     .then(data => {
       this.setState({
-        origLat: data.origin_lat,
-        origLong: data.origin_long,
-        destLat: data.dest_lat,
-        destLong: data.dest_long,
         distance: data.distance,
         temperature: data.temperature,
         rainfall: data.rainfall,
@@ -79,21 +83,21 @@ class App extends Component {
       }),
       method: 'POST',
       body: JSON.stringify({
-        origLat: this.state.origLat,
-        origLong: this.state.origLong,
-        destLat: this.state.destLat,
-        destLong: this.state.destLong,
         distance: this.state.distance,
         month: this.state.month,
         day: this.state.day,
+        temperature: this.state.temperature,
+        rainfall: this.state.rainfall,
       }),
     })
     .then(r => r.json())
     .then((response) => {
+      const filtered = this.filterPredictionData(response)
       this.setState({
-        predictResponse: response
-      })
-      this.getPredictionArray().bind(this);
+        predictResponse: response,
+        dataToShow: filtered,
+        chartTitle: `Price vs. Time for Your Trip on ${this.state.day} in ${this.state.month}`,
+      });
     })
     .catch(err => console.log(err));
   }
@@ -122,13 +126,17 @@ class App extends Component {
     });
   }
 
-  filterHistoricalData(data) {
+  updateCalendar (e) {
     this.setState({
-      dataToShow: [],
+      calendar: e.target.value
     });
-    let values = data.filter((entry) => {
+  }
+
+  filterHistoricalData(data) {
+    let values = [];
+    data.forEach((entry) => {
       if (entry.month == this.state.month && entry.day == this.state.day) {
-        return {x: entry.hour, y: entry.price};
+        values.push({x: entry.hour, y: entry.price});
       }
     });
     const final = [
@@ -137,16 +145,11 @@ class App extends Component {
         values: values,
       },
     ];
-    this.setState({
-      dataToShow: final,
-    });
+    return final;
   }
 
-  getPredictionArray(){
-    this.setState({
-      dataToShow: []
-    });
-    let values = this.state.predictResponse.map((item) => {
+  filterPredictionData(response){
+    let values = response.map((item) => {
       return {x: item.hour, y: item.price};
     });
     const final = [
@@ -155,8 +158,13 @@ class App extends Component {
         values: values,
       }
     ];
+    return final;
+  }
+
+  doFilter(e) {
     this.setState({
-      dataToShow: final,
+      dataToShow: this.filterHistoricalData(this.state.historyData),
+      chartTitle: `Price vs. Time for an Average ${this.getDayString(this.state.day)} in ${this.getMonthString(this.state.month)}`,
     });
   }
 
@@ -167,16 +175,19 @@ class App extends Component {
         <div className={styles["side-bar"]}>
           <Filter
             updateMonth={event => this.updateMonth(event)}
+            updateDay={event => this.updateDay(event)}
+            doFilter={this.doFilter.bind(this)}
           />
           <Search
             updateAddress={event => this.updateAddress(event)}
             updateDestination={event => this.updateDestination(event)}
-            updateDay={event => this.updateDay(event)}
+            updateCalendar={event => this.updateCalendar(event)}
             doSearch={this.getLocation.bind(this)}
           />
         </div>
         <div className={styles["graph-container"]}>
           <Graph
+            height={this.state.height}
             data={this.state.dataToShow}
             chartTitle={this.state.chartTitle}
             xAxisLabel={this.state.xAxisLabel}

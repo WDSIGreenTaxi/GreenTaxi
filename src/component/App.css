@@ -2,6 +2,8 @@
   height: 100vh;
   width: 100vw;
   margin: 0;
+  background-color: #FAFAFA;
+  font-family: arial;
 }
 
 .side-bar {
@@ -10,7 +12,7 @@
   position: absolute;
   top: 17vh;
   left: 1vw;
-  background-color: lightblue;
+  background-color: #FAFAFA;
 }
 
 .graph-container {
@@ -19,5 +21,6 @@
   position: absolute;
   top: 17vh;
   left: 32vw;
-  background-color: lightblue;
+  background-color: #FAFAFA;
+  border: 1px solid black;
 }

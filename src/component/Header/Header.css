@@ -1,7 +1,7 @@
 .Header {
   height: 15vh;
   width: 100vw;
-  background-color: lightblue;
+  background-color: #FAFAFA;
   position: absolute;
   top: 0;
   left: 0;
@@ -9,6 +9,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  border-bottom: 1px solid black;
 }
 
 .Header h1 {

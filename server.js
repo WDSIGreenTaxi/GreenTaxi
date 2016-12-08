@@ -14,8 +14,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 
 app.post('/location',
-  loc.getOriginLatLong,
-  loc.getDestinationLatLong,
   loc.getDistance,
   loc.getWeatherData,
   loc.prepareResponse,

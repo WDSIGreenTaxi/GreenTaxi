@@ -2,4 +2,35 @@
   height: 20vh;
   width: 29.8vw;
   border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
+
+.filter select {
+  height: 3vh;
+  width: 20%;
+}
+
+.filter button {
+  height: 3vh;
+  width: 18%;
+  border-radius: .2em;
+  border-style: none;
+  color: white;
+}
+
+.filter h2 {
+  margin: 0;
+}
+
+.drop-down {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 30vw;
+}
+
+
