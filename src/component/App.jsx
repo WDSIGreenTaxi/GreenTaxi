@@ -40,7 +40,7 @@ class App extends Component {
   }
 
   getHistory () {
-    fetch(`http://localhost:4000/history`)
+    fetch(`http://localhost:4000/find_hist`)
     .then(r => r.json())
     .then((response) => {
       const filtered = this.filterHistoricalData(response);
