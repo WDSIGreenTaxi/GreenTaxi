@@ -1,11 +1,16 @@
+const fetch = require('node-fetch');
+
 function getDistance(req, res, next){
   let key = "AIzaSyBlF8TNXj_FdB5xrIZBHB9uMk1UGegewrk";
   const originAddress = encodeURIComponent(req.body.originAddress);
-  const destinationAddress = encodeURIComponent(req.query.destinationAddress);
+  const destinationAddress = encodeURIComponent(req.body.destinationAddress);
+  console.log(originAddress, destinationAddress)
+  console.log('*******************************************************')
   fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${originAddress}&destinations=${destinationAddress}&key=${key}`)
     .then(r => r.json())
     .then((distanceData) => {
-      res.tripDistance = distanceData.rows.elements.distance.text;
+      console.log(distanceData )
+      res.tripDistance = distanceData.rows[0].elements[0].distance.text;
       next();
     })
     .catch((distanceError) => {
@@ -18,8 +23,8 @@ function getWeatherData(req, res, next){
   fetch(`http://api.wunderground.com/api/${weatherKey}/conditions/q/NY/New_York.json`)
   .then(r => r.json())
   .then((weatherData) => {
-    res.tempData = weatherData.currentObservation.temp_f;
-    res.rainData = weatherData.currentObservation.precip_today_in;
+    res.tempData = weatherData.current_observation.temp_f;
+    res.rainData = weatherData.current_observation.precip_today_in;
     next();
   })
   .catch((weatherError) => {

@@ -14,8 +14,8 @@ class App extends Component {
       origAddress: '',
       destAddress: '',
       distance: '',
-      month: 0,
-      day: 1,
+      month: 1,
+      day: 0,
       dataToShow: [],
       chartTitle: '',
       xAxisLabel: 'Hour',
@@ -30,7 +30,7 @@ class App extends Component {
   }
 
   getDayString(day) {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     return days[day];
   }
 
@@ -54,14 +54,14 @@ class App extends Component {
   }
 
   getLocation() {
-    fetch('http://localhost:3000/api/location', {
+    fetch('http://localhost:3000/location', {
       headers: new Headers({
         'Content-Type': 'application/json',
       }),
       method: 'POST',
       body: JSON.stringify({
         originAddress: this.state.origAddress,
-        destinationAddress: this.state.destAddress
+        destinationAddress: this.state.destAddress,
       }),
     })
     .then(r => r.json())
@@ -71,24 +71,59 @@ class App extends Component {
         temperature: data.temperature,
         rainfall: data.rainfall,
       });
-      getPrediction().bind(this)
+      // this.getPrediction()
+
+
+
+        const form = new FormData();
+        // form.append('rain', 0.5);
+        // form.append('temp', 50);
+        // form.append('dist', 6.3);
+
+        form.append('dist', this.state.distance);
+        form.append('month', this.state.month);
+        form.append('day', this.state.day);
+        form.append('temp', this.state.temperature);
+        form.append('rain', this.state.rainfall);
+        form.append('pass_count', 1);
+        fetch(`http://localhost:4000/find_fare`, {
+          method: 'POST',
+          body: form,
+        })
+        .then(r => r.json())
+        .then((response) => {
+          const filtered = this.filterPredictionData(response)
+          this.setState({
+            predictResponse: response,
+            dataToShow: filtered,
+            chartTitle: `Price vs. Time for Your Trip on ${this.getDayString(this.state.day)} in ${this.getMonthString(this.state.month)}`,
+          });
+        })
+        .catch(err => console.log(err));
+
+
+
+
+
     })
     .catch(err => console.log(err));
   }
 
   getPrediction(){
-    fetch(`http://localhost:4000/prediction`, {
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      }),
+    const form = new FormData();
+        // form.append('rain', 0.5);
+        // form.append('temp', 50);
+        // form.append('dist', 6.3);
+
+        form.append('dist', this.state.distance);
+        form.append('month', this.state.month);
+        form.append('day', this.state.day);
+        form.append('temp', this.state.temperature);
+        form.append('rain', this.state.rainfall);
+        form.append('pass_count', 1);
+    fetch(`http://localhost:4000/find_fare`, {
       method: 'POST',
-      body: JSON.stringify({
-        distance: this.state.distance,
-        month: this.state.month,
-        day: this.state.day,
-        temperature: this.state.temperature,
-        rainfall: this.state.rainfall,
-      }),
+      body: form,
     })
     .then(r => r.json())
     .then((response) => {
@@ -96,7 +131,7 @@ class App extends Component {
       this.setState({
         predictResponse: response,
         dataToShow: filtered,
-        chartTitle: `Price vs. Time for Your Trip on ${this.state.day} in ${this.state.month}`,
+        chartTitle: `Price vs. Time for Your Trip on ${this.getDayString(this.state.day)} in ${this.getMonthString(this.state.month)}`,
       });
     })
     .catch(err => console.log(err));
@@ -127,6 +162,7 @@ class App extends Component {
   }
 
   updateCalendar (e) {
+    console.log(e.target.value)
     this.setState({
       calendar: e.target.value
     });
@@ -182,6 +218,8 @@ class App extends Component {
             updateAddress={event => this.updateAddress(event)}
             updateDestination={event => this.updateDestination(event)}
             updateCalendar={event => this.updateCalendar(event)}
+            updateMonth={event => this.updateMonth(event)}
+            updateDay={event => this.updateDay(event)}
             doSearch={this.getLocation.bind(this)}
           />
         </div>
