@@ -4,12 +4,9 @@ function getDistance(req, res, next){
   let key = "AIzaSyBlF8TNXj_FdB5xrIZBHB9uMk1UGegewrk";
   const originAddress = encodeURIComponent(req.body.originAddress);
   const destinationAddress = encodeURIComponent(req.body.destinationAddress);
-  console.log(originAddress, destinationAddress)
-  console.log('*******************************************************')
   fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${originAddress}&destinations=${destinationAddress}&key=${key}`)
     .then(r => r.json())
     .then((distanceData) => {
-      console.log(distanceData )
       res.tripDistance = distanceData.rows[0].elements[0].distance.text;
       next();
     })

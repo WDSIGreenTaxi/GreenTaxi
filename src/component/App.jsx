@@ -26,6 +26,7 @@ class App extends Component {
   }
 
   componentDidMount(){
+    console.log('mounted')
     this.getHistory();
   }
 
@@ -40,7 +41,7 @@ class App extends Component {
   }
 
   getHistory () {
-    fetch(`http://localhost:4000/find_hist`)
+    fetch(`http://localhost:3000/find_hist`)
     .then(r => r.json())
     .then((response) => {
       const filtered = this.filterHistoricalData(response);
