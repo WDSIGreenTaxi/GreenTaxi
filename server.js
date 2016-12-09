@@ -13,6 +13,10 @@ const loc = require('./models/location.js');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 
+app.get('/find_hist', (req, res) => {
+  res.json(require('./data.js'));
+})
+
 app.post('/location',
   loc.getDistance,
   loc.getWeatherData,

@@ -19,17 +19,17 @@ const Filter = props => {
           <option value="9">September</option>
           <option value="10">October</option>
           <option value="11">November</option>
-          <option value="11">December</option>
+          <option value="12">December</option>
         </select>
         <select className="day-drop-down" onChange={props.updateDay}>
-          <option value="0">Sunday</option>
-          <option value="1">Monday</option>
-          <option value="2">Tuesday</option>
-          <option value="3">Wednesday</option>
-          <option value="4">Thursday</option>
-          <option value="5">Friday</option>
-          <option value="6">Saturday</option>
-        </select>
+          <option value="0">Monday</option>
+          <option value="1">Tuesday</option>
+          <option value="2">Wednesday</option>
+          <option value="3">Thursday</option>
+          <option value="4">Friday</option>
+          <option value="5">Saturday</option>
+          <option value="6">Sunday</option>
+      </select>
       </div>
       <button onClick={props.doFilter}>Submit</button>
     </div>
